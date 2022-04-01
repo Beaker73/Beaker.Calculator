@@ -22,7 +22,7 @@ export function NavBar() {
 	]), [followLink]);
 
 
-	return <Nav groups={groups} />
+	return <Nav groups={groups} />;
 }
 
 if (import.meta.env.DEV)

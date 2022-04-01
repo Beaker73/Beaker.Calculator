@@ -1,12 +1,12 @@
-import { CommandBar } from "@fluentui/react";
+import { CommandBar, ICommandBarItemProps } from "@fluentui/react";
 import { useMemo } from "react";
 
 export function AppBar() {
 
-	const items = useMemo(() => ({
-	}), []);
+	const items = useMemo<ICommandBarItemProps[]>(() => ([
+	]), []);
 
-	return <CommandBar items={[]} />
+	return <CommandBar items={items} />;
 }
 
 if(import.meta.env.DEV)

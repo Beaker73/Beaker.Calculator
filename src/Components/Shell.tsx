@@ -6,7 +6,7 @@ import { NavBar } from ".";
 import { Routes, useRoutes } from "raviger";
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	appBar: {
 		position: "fixed",
 		top: 0,
