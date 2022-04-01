@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "orta.vscode-jest",
+        "ms-edgedevtools.vscode-edge-devtools",
+        "eg2.vscode-npm-script",
+        "jingkaizhao.vscode-redux-devtools",
+        "aaron-bond.better-comments",
+        "dbaeumer.vscode-eslint"
+    ]
+}
