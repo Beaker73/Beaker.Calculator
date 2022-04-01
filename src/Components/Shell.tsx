@@ -1,7 +1,10 @@
 import { makeStyles } from "../Hooks/Theming";
+import * as pages from "../Pages";
 
 import { AppBar } from "./AppBar";
 import { NavBar } from ".";
+import { Routes, useRoutes } from "raviger";
+
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -25,7 +28,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+const routes: Routes<"/" | "/calculator" | "/map"> = {
+	"/": () => <pages.HomePage />,
+	"/calculator": () => <pages.CalculatorPage />,
+	"/map": () => <pages.MapPage />,
+};
+
 export function Shell() {
+
+	const page = useRoutes(routes);
 
 	const styles = useStyles();
 
@@ -36,6 +47,11 @@ export function Shell() {
 		<div className={styles.navBar}>
 			<NavBar />
 		</div>
-		<div className={styles.page}></div>
+		<div className={styles.page}>
+			{page}
+		</div>
 	</>;
 }
+
+if(import.meta.env.DEV)
+	Shell.whydidyourender = true;

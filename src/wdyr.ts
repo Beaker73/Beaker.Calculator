@@ -5,6 +5,5 @@ if (import.meta.env.DEV) {
 
 	whyDidYouRender.default(React, {
 		trackAllPureComponents: true,
-		include: [/.*/gi]
 	});
 }
