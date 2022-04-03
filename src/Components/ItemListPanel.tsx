@@ -5,7 +5,6 @@ export interface ItemListPanelProps {
 }
 
 export function ItemListPanel(props: ItemListPanelProps) {
-	console.debug("rendering item list panel", props);
 	return <Panel {...props.panelProps} />;
 }
 

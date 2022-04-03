@@ -57,7 +57,6 @@ const routes: Routes<"/" | "/calculator" | "/map"> = {
 export function Shell() {
 
 	const page = useRoutes(routes);
-
 	const styles = useStyles();
 
 	return <CommandBarProvider>

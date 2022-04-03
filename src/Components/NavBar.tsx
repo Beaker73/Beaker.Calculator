@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { INavLink, INavLinkGroup, Nav } from "@fluentui/react";
 import { navigate } from "raviger";
 
+
 export function NavBar() {
 
 	const followLink = useCallback((ev?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
@@ -11,16 +12,26 @@ export function NavBar() {
 			navigate(item.url);
 	}, []);
 
-	const groups = useMemo<INavLinkGroup[]>(() => ([
+	const data = useMemo<INavLinkGroup[]>(() => ([
 		{
 			links: [
-				{ key: "home", name: "Home", url: "/", iconProps: { iconName: "Home" }, onLinkClick: followLink },
-				{ key: "calculator", name: "Calculator", url: "/calculator", iconProps: { iconName: "Calculator" }, onLinkClick: followLink },
-				{ key: "map", name: "Map", url: "/map", iconProps: { iconName: "World" }, onLinkClick: followLink },
+				{ key: "home", name: "Home", url: "/", iconProps: { iconName: "Home" } },
+				{ key: "calculator", name: "Calculator", url: "/calculator", iconProps: { iconName: "Calculator" } },
+				{ key: "map", name: "Map", url: "/map", iconProps: { iconName: "World" } },
 			]
 		}
-	]), [followLink]);
+	]), []);
 
+	const groups = useMemo<INavLinkGroup[]>(() => {
+		return data.map<INavLinkGroup>(g => ({
+			...g,
+			links: g.links.map<INavLink>(l => ({
+				...l,
+				onClick: followLink,
+				forceAnchor: true,
+			}))
+		}));
+	}, [data, followLink]);
 
 	return <Nav groups={groups} />;
 }
