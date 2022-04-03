@@ -6,6 +6,8 @@ import * as pages from "../Pages";
 import { AppBar } from "./AppBar";
 import { NavBar } from ".";
 import { CommandBarProvider, PanelProvider } from "../Hooks";
+import { StoreProvider } from "easy-peasy";
+import { store } from "../Store";
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -59,21 +61,23 @@ export function Shell() {
 	const page = useRoutes(routes);
 	const styles = useStyles();
 
-	return <CommandBarProvider>
-		<PanelProvider>
-			<div className={styles.navBar}>
-				<NavBar />
-			</div>
-			<div className={styles.appBar}>
-				<AppBar />
-			</div>
-			<div className={styles.pageFrame}>
-				<div className={styles.page}>
-					{page}
+	return <StoreProvider store={store}>
+		<CommandBarProvider>
+			<PanelProvider>
+				<div className={styles.navBar}>
+					<NavBar />
 				</div>
-			</div>
-		</PanelProvider>
-	</CommandBarProvider>;
+				<div className={styles.appBar}>
+					<AppBar />
+				</div>
+				<div className={styles.pageFrame}>
+					<div className={styles.page}>
+						{page}
+					</div>
+				</div>
+			</PanelProvider>
+		</CommandBarProvider>
+	</StoreProvider>;
 }
 
 if (import.meta.env.DEV)

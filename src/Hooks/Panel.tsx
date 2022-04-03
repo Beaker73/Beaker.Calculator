@@ -31,7 +31,15 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 		case "add":
 			return [
 				...newState,
-				{ key: action.payload.key, component: action.payload.panelComponent, panelProps: { isOpen: false } }
+				{
+					key: action.payload.key,
+					component: action.payload.panelComponent,
+					panelProps: {
+						isOpen: false,
+						isBlocking: false,
+						isLightDismiss: true,
+					}
+				}
 			];
 
 		case "remove": {
@@ -42,14 +50,28 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 			if (existing)
 				return [
 					...newState,
-					{ ...existing, panelProps: { ...existing.panelProps, isOpen: true, onDismissed: action.payload.resolve } }];
+					{
+						...existing,
+						panelProps: {
+							...existing.panelProps,
+							isOpen: true,
+							onDismissed: action.payload.resolve
+						}
+					}];
 			break;
 
 		case "hide":
 			if (existing)
 				return [
 					...newState,
-					{ ...existing, panelProps: { ...existing.panelProps, isOpen: false } }];
+					{
+						...existing,
+						panelProps: {
+							...existing.panelProps,
+							isOpen: false,
+							onDismissed: undefined,
+						}
+					}];
 			break;
 	}
 
@@ -63,7 +85,12 @@ export function PanelProvider(props: React.PropsWithChildren<unknown>): JSX.Elem
 
 	return <panelContext.Provider value={value}>
 		{props.children}
-		{state.map(context => <context.component key={context.key} panelProps={context.panelProps} />)}
+		{state.map(context => {
+			if(!context.panelProps.isOpen)
+				return null;
+
+			return <context.component key={context.key} panelProps={context.panelProps} />;
+		})}
 	</panelContext.Provider>;
 }
 
