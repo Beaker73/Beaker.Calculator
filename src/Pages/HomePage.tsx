@@ -10,3 +10,8 @@ export function HomePage() {
 		<p>Nullam sit amet interdum magna, vel convallis lectus. Duis tincidunt commodo eleifend. Nam sit amet ultrices eros. Donec consequat quam augue, id pretium diam congue nec. Fusce dapibus massa eu auctor volutpat. Vivamus vehicula accumsan urna id cursus. Vivamus consequat maximus libero id ullamcorper. Nunc sodales libero risus, at faucibus odio commodo sed. Nam nisl leo, eleifend at feugiat vitae, commodo at nisi. Aliquam condimentum arcu dui, suscipit rhoncus turpis viverra sit amet.</p>
 	</Page>;
 }
+
+if (import.meta.env.DEV)
+	HomePage.whydidyourender = true;
+
+export default HomePage;

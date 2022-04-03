@@ -1,7 +1,7 @@
 import { Routes, useRoutes } from "raviger";
 
 import { makeStyles } from "../Hooks/Theming";
-import * as pages from "../Pages";
+import { AsyncPage } from "../Pages";
 
 import { AppBar } from "./AppBar";
 import { NavBar } from ".";
@@ -51,9 +51,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const routes: Routes<"/" | "/calculator" | "/map"> = {
-	"/": () => <pages.HomePage />,
-	"/calculator": () => <pages.CalculatorPage />,
-	"/map": () => <pages.MapPage />,
+	"/": () => <AsyncPage page="HomePage" />,
+	"/calculator": () => <AsyncPage page="CalculatorPage" />,
+	"/map": () => <AsyncPage page="MapPage" />,
 };
 
 export function Shell() {

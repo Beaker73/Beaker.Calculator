@@ -7,3 +7,9 @@ export function CalculatorPage() {
 		</Card>
 	</Page>;
 }
+
+
+if (import.meta.env.DEV)
+	CalculatorPage.whydidyourender = true;
+
+export default CalculatorPage;
