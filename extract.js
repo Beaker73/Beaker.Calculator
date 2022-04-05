@@ -95,21 +95,10 @@ async function process() {
 			await fs.promises.copyFile(fromPath, toPath256);
 		}
 
-		const toPath20 = path.join(destPath + "/20", dest + ".png");
-		new Promise((resolve, reject) => {
-			sharp(fromPath)
-				.resize({ height: 20 })
-				.sharpen()
-				.toFile(toPath20)
-				.then(resolve)
-				.catch(error => reject(error));
-		});
-
 		const toPath32 = path.join(destPath + "/32", dest + ".png");
 		new Promise((resolve, reject) => {
 			sharp(fromPath)
 				.resize({ height: 32 })
-				.sharpen()
 				.toFile(toPath32)
 				.then(resolve)
 				.catch(error => reject(error));
@@ -119,7 +108,6 @@ async function process() {
 		new Promise((resolve, reject) => {
 			sharp(fromPath)
 				.resize({ height: 64 })
-				.sharpen()
 				.toFile(toPath64)
 				.then(resolve)
 				.catch(error => reject(error));

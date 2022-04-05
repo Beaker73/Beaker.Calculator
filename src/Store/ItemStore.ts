@@ -17,6 +17,14 @@ export const itemModel: ItemStore = {
 			category: "Ingots",
 			stackSize: 100,
 			resourceSinkPoints: 2,
+		},
+		coal: {
+			key: "coal",
+			iconName: "coal",
+			name: "Coal",
+			category: "Ore",
+			stackSize: 100,
+			resourceSinkPoints: 3,
 		}
 	},
 	all: computed(state => Object.values(state.data)),
