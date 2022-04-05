@@ -1,0 +1,39 @@
+{
+	"items": {
+		"ironIngot": {
+			"name": "Iron Ingot",
+			"iconName": "iron-ingot",
+			"categoryKey": "ingots",
+			"stackSize": 100,
+			"resourceSinkPoints": 2,
+			"recipes": [
+				"ironIngot",
+				"ironAlloyIngot",
+				"pureIronIngot"
+			]
+		}
+	},
+	"categories": {
+		"key": "ingots",
+		"name": "Ingots"
+	},
+	"recipes": {
+		"ironIngot": {
+			"inputs": [
+				{
+					"itemKey": "ironIngot",
+					"count": 3,
+					"rate": 30
+				}
+			],
+			"outputs": [
+				{
+					"itemKey": "ironPlate",
+					"count": 2,
+					"rate": 20
+				}
+			],
+			"structureKey": "constructor"
+		}
+	}
+}

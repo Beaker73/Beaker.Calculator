@@ -1,7 +1,7 @@
 import { DetailsList, IColumn, IPanelProps, Panel } from "@fluentui/react";
 import { useCallback, useMemo } from "react";
 import { useStoreState } from "../Store";
-import { Item } from "../Store/ItemStore";
+import { Item } from "../Model";
 import { ItemIcon } from "./ItemIcon";
 
 export interface ItemListPanelProps {
@@ -13,7 +13,7 @@ export function ItemListPanel(props: ItemListPanelProps) {
 	const items = useStoreState(state => state.items.all);
 
 	const renderIcon = useCallback((item: Item) => {
-		return <ItemIcon path={item.iconPath} size={20} />;
+		return <ItemIcon path={item.iconName} name={item.name} size={20} />;
 	}, []);
 
 	const columns = useMemo<IColumn[]>(() => ([

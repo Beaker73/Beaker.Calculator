@@ -1,10 +1,6 @@
 import { computed, Computed } from "easy-peasy";
 import type { Store } from ".";
-
-export interface Item {
-	iconPath: string,
-	name: string,
-}
+import { Item } from "../Model";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ItemStore {
@@ -15,8 +11,12 @@ export interface ItemStore {
 export const itemModel: ItemStore = {
 	data: {
 		ironIngot: {
-			iconPath: "/icons/iron-ingot.png",
+			key: "ironIngot",
+			iconName: "iron-ingot",
 			name: "Iron Ingot",
+			category: "Ingots",
+			stackSize: 100,
+			resourceSinkPoints: 2,
 		}
 	},
 	all: computed(state => Object.values(state.data)),

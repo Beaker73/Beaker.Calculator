@@ -3,12 +3,16 @@ import { useMemo } from "react";
 
 export interface ItemIconProps {
 	path: string,
+	name: string,
 	size: number,
 }
 
+const knownSizes = [20, 256];
+
 export function ItemIcon(props: ItemIconProps) {
 
-	const { path, size } = props;
+	const { path, size, name } = props;
+	const bestSize = knownSizes.find(s => s >= size);
 
 	const styles = useMemo(() => {
 		return mergeStyleSets({
@@ -19,5 +23,5 @@ export function ItemIcon(props: ItemIconProps) {
 		});
 	},[size]);
 
-	return <img src={path} className={styles.icon} />;
+	return <img alt={name} title={name} src={`/icons/${bestSize}/${path}.png`} className={styles.icon} />;
 }
