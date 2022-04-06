@@ -7,7 +7,7 @@ export interface ItemIconProps {
 	size: number,
 }
 
-const knownSizes = [20, 256];
+const knownSizes = [32, 64, 256];
 
 export function ItemIcon(props: ItemIconProps) {
 
