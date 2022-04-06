@@ -50,9 +50,13 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const routes: Routes<"/" | "/calculator" | "/map"> = {
+const routes: Routes<string> = {
 	"/": () => <AsyncPage page="HomePage" />,
 	"/calculator": () => <AsyncPage page="CalculatorPage" />,
+	"/encyclopedia": () => <AsyncPage page="EncyclopediaPage" />,
+	"/encyclopedia/factories": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "factories" }} />,
+	"/encyclopedia/structures": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "structures" }} />,
+	"/encyclopedia/resources": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "resources" }} />,
 	"/map": () => <AsyncPage page="MapPage" />,
 };
 

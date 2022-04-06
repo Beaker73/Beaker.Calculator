@@ -1,4 +1,3 @@
-/// <reference types="@welldone-software/why-did-you-render" />
 import "./wdyr";
 
 import React from "react";

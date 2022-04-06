@@ -27,9 +27,17 @@ export const model: Store = {
 
 export const store = createStore(model, {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-//	compose: composer as any,
-//	devTools: true,
+	//	compose: composer as any,
+	//	devTools: true,
 });
+
+if (import.meta.env.DEV) {
+	if (import.meta.hot) {
+		import.meta.hot.accept(() => {
+			store.reconfigure(model);
+		});
+	}
+}
 
 const typedHooks = createTypedHooks<Store>();
 

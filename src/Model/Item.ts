@@ -5,4 +5,5 @@ export interface Item {
 	category: string,
 	stackSize: number,
 	resourceSinkPoints: number,
+	wikiUri: string,
 }

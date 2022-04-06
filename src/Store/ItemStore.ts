@@ -17,6 +17,7 @@ export const itemModel: ItemStore = {
 			category: "Ingots",
 			stackSize: 100,
 			resourceSinkPoints: 2,
+			wikiUri: "https://satisfactory.fandom.com/wiki/Iron_Ingot"
 		},
 		coal: {
 			key: "coal",
@@ -25,6 +26,16 @@ export const itemModel: ItemStore = {
 			category: "Ore",
 			stackSize: 100,
 			resourceSinkPoints: 3,
+			wikiUri: "https://satisfactory.fandom.com/wiki/Coal"
+		},
+		aluminaSolution: {
+			key: "aluminaSolution",
+			iconName: "alumina-solution-packaged",
+			name: "Packaged Alumina Solution",
+			category: "Container",
+			stackSize: 100,
+			resourceSinkPoints: 160,
+			wikiUri: "https://satisfactory.fandom.com/wiki/Packaged_Alumina_Solution"
 		}
 	},
 	all: computed(state => Object.values(state.data)),

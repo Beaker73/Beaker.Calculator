@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const sharp = require('sharp');
+const sharp = require("sharp");
 
 var sourcePath = "D:/Users/beake/Downloads/umodel_win32/UmodelExport/Game/FactoryGame";
 var destPath = "D:/Projects/Beaker/Beaker.Calculator/public/icons";
@@ -47,6 +47,9 @@ const mapping = [
 	["Buildable/Building/Pillars/UI/IconDesc_PillarMetalSmall_256", "pillar-small-metal"],
 	["Buildable/Building/Pillars/UI/Pillar_Bottom_256", "pillar-base-big-metal"],
 	["Buildable/Building/Pillars/UI/Pillar_Middle_256", "pillar-big-metal"],
+	//
+	["Resource/Parts/AIlimiter/UI/IconDesc_AILimiter_256", "ai-limiter"],
+	["Resource/Parts/Alumina/UI/IconDesc_PackagedAluminaSolution_256", "alumina-solution-packaged"],
 	//
 	["Resource/RawResources/Coal/UI/IconDesc_CoalOre_256", "coal"],
 	["Resource/RawResources/CrudeOil/UI/LiquidOil_Pipe_256", "oil-pipe"],

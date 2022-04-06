@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { LoadingPage } from "./LoadingPage";
 
-export type PageName = "CalculatorPage" | "HomePage" | "MapPage";
+export type PageName = "CalculatorPage" | "HomePage" | "EncyclopediaPage" | "MapPage";
 
 export interface AsyncPageProps {
 	page: PageName,
+	pageProps?: Record<string, unknown>,
 }
 
+type PageComponent = (props: Record<string, unknown>) => JSX.Element;
+
 interface AsyncComponent {
-	value?: () => JSX.Element;
+	value?: PageComponent;
 }
 
 // Vite does not seem to handle the dynamic import using variable to well,
 // so we for now we hanlde it explicitly on a one-by-one base
-const importers: Record<PageName | "default", () => Promise<() => JSX.Element>> = {
+const importers: Record<PageName | "default", () => Promise<PageComponent>> = {
 	HomePage: () => import("./HomePage").then(module => module.HomePage),
 	CalculatorPage: () => import("./CalculatorPage").then(module => module.CalculatorPage),
+	EncyclopediaPage: () => import("./EncyclopediaPage").then(module => module.EncyclopediaPage),
 	MapPage: () => import("./MapPage").then(module => module.MapPage),
 	default: () => import("./NotFoundPage").then(module => module.NotFoundPage),
 };
@@ -35,5 +39,5 @@ export function AsyncPage(props: AsyncPageProps) {
 	if (!component.value)
 		return <LoadingPage />;
 
-	return <component.value />;
+	return <component.value {...props.pageProps} />;
 }
