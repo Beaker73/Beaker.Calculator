@@ -6,6 +6,7 @@ import { Item } from "../Model";
 export interface ItemStore {
 	data: Record<string, Item>,
 	all: Computed<ItemStore, Item[], Store>,
+	getItemByKey: Computed<ItemStore, (key: string) => Item | undefined, Store>,
 }
 
 export const itemModel: ItemStore = {
@@ -16,7 +17,7 @@ export const itemModel: ItemStore = {
 			name: "Iron Ingot",
 			category: "Ingots",
 			stackSize: 100,
-			resourceSinkPoints: 2,
+			sinkValue: 2,
 			wikiUri: "https://satisfactory.fandom.com/wiki/Iron_Ingot"
 		},
 		coal: {
@@ -25,7 +26,7 @@ export const itemModel: ItemStore = {
 			name: "Coal",
 			category: "Ore",
 			stackSize: 100,
-			resourceSinkPoints: 3,
+			sinkValue: 3,
 			wikiUri: "https://satisfactory.fandom.com/wiki/Coal"
 		},
 		aluminaSolution: {
@@ -34,9 +35,10 @@ export const itemModel: ItemStore = {
 			name: "Packaged Alumina Solution",
 			category: "Container",
 			stackSize: 100,
-			resourceSinkPoints: 160,
+			sinkValue: 160,
 			wikiUri: "https://satisfactory.fandom.com/wiki/Packaged_Alumina_Solution"
 		}
 	},
 	all: computed(state => Object.values(state.data)),
+	getItemByKey: computed(state => key => state.data[key]),
 };

@@ -13,7 +13,7 @@ export function ItemListPanel(props: ItemListPanelProps) {
 	const items = useStoreState(state => state.items.all);
 
 	const renderIcon = useCallback((item: Item) => {
-		return <ItemIcon path={item.iconName} name={item.name} size={32} />;
+		return item ? <ItemIcon item={item} size={32} /> : undefined;
 	}, []);
 
 	const renderName = useCallback((item: Item) => {

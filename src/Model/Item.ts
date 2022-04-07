@@ -4,6 +4,6 @@ export interface Item {
 	name: string,
 	category: string,
 	stackSize: number,
-	resourceSinkPoints: number,
+	sinkValue: number,
 	wikiUri: string,
 }
