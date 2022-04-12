@@ -7,7 +7,7 @@ import { ItemListPanel } from ".";
 
 export function TargetItemList() {
 
-	const panel = usePanel("target-items", ItemListPanel);
+	const panel = usePanel(ItemListPanel);
 
 	const openAddPanel = useCallback(() => {
 		panel.show();

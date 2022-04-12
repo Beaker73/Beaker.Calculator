@@ -1,5 +1,6 @@
-import React, { useContext, createContext, useEffect, useReducer, useMemo, Dispatch, useCallback } from "react";
-import { IPanelProps } from "@fluentui/react";
+import React, { useContext, createContext, useEffect, useReducer, useMemo, Dispatch, useCallback, MouseEventHandler } from "react";
+import { IPanelProps, PanelBase } from "@fluentui/react";
+import { useId } from "./Id";
 
 export type PanelComponent = (props: { panelProps?: IPanelProps }) => JSX.Element;
 
@@ -16,7 +17,7 @@ export interface PanelContext {
 
 type PanelAction = { type: "add", payload: { key: string, panelComponent: PanelComponent } }
 	| { type: "remove", payload: { key: string } }
-	| { type: "show", payload: { key: string, resolve: () => void, } }
+	| { type: "show", payload: { key: string, resolve: () => void, cancelContext: MouseEventHandler<PanelBase>, } }
 	| { type: "hide", payload: { key: string } };
 
 const panelContext = createContext<PanelContext>({ state: [], dispatch: null });
@@ -55,7 +56,8 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 						panelProps: {
 							...existing.panelProps,
 							isOpen: true,
-							onDismissed: action.payload.resolve
+							onContextMenu: action.payload.cancelContext,
+							onDismissed: action.payload.resolve,
 						}
 					}];
 			break;
@@ -69,6 +71,7 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 						panelProps: {
 							...existing.panelProps,
 							isOpen: false,
+							onContextMenu: undefined,
 							onDismissed: undefined,
 						}
 					}];
@@ -86,7 +89,7 @@ export function PanelProvider(props: React.PropsWithChildren<unknown>): JSX.Elem
 	return <panelContext.Provider value={value}>
 		{props.children}
 		{state.map(context => {
-			if(!context.panelProps.isOpen)
+			if (!context.panelProps.isOpen)
 				return null;
 
 			return <context.component key={context.key} panelProps={context.panelProps} />;
@@ -100,18 +103,27 @@ export interface PanelManager {
 	hide(): void,
 }
 
-export function usePanel(key: string, panelComponent: PanelComponent): PanelManager {
+export function usePanel(panelComponent: PanelComponent): PanelManager {
+
+	const key = useId("panel");
 
 	const { dispatch } = useContext(panelContext);
+
+	const cancelContext = useCallback<MouseEventHandler<PanelBase>>(event => {
+		if (event) {
+			event.preventDefault();
+			return false;
+		}
+	}, []);
 
 	const show = useCallback(() => {
 		if (dispatch) {
 			return new Promise<void>((resolve) => {
-				dispatch({ type: "show", payload: { key, resolve } });
+				dispatch({ type: "show", payload: { key, resolve, cancelContext } });
 			});
 		}
 		return Promise.resolve();
-	}, [dispatch, key]);
+	}, [cancelContext, dispatch, key]);
 
 	const hide = useCallback(() => {
 		if (dispatch)

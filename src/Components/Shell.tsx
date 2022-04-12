@@ -5,7 +5,7 @@ import { AsyncPage } from "../Pages";
 
 import { AppBar } from "./AppBar";
 import { NavBar } from ".";
-import { CommandBarProvider, PanelProvider } from "../Hooks";
+import { CommandBarProvider, ContextMenuProvider, PanelProvider } from "../Hooks";
 import { StoreProvider } from "easy-peasy";
 import { store } from "../Store";
 
@@ -66,22 +66,24 @@ export function Shell() {
 	const styles = useStyles();
 
 	return <StoreProvider store={store}>
-		<CommandBarProvider>
-			<PanelProvider>
-				<div className={styles.navBar}>
-					<NavBar />
-				</div>
-				<div className={styles.appBar}>
-					<AppBar />
-				</div>
-				<div className={styles.pageFrame}>
-					<div className={styles.page}>
-						{page}
+		<ContextMenuProvider>
+			<CommandBarProvider>
+				<PanelProvider>
+					<div className={styles.navBar}>
+						<NavBar />
 					</div>
-				</div>
-			</PanelProvider>
-		</CommandBarProvider>
-	</StoreProvider>;
+					<div className={styles.appBar}>
+						<AppBar />
+					</div>
+					<div className={styles.pageFrame}>
+						<div className={styles.page}>
+							{page}
+						</div>
+					</div>
+				</PanelProvider>
+			</CommandBarProvider>
+		</ContextMenuProvider>
+	</StoreProvider >;
 }
 
 if (import.meta.env.DEV)
