@@ -1,8 +1,9 @@
-import { Stack } from "@fluentui/react";
+import { DetailsList, Stack } from "@fluentui/react";
 import { makeStyles, makeThemedObjects } from "../Hooks";
 import { useStoreState } from "../Store";
 import { Card } from "./Card";
 import { Divider } from "./Divider";
+import { Heading } from "./Heading";
 import { ItemIcon } from "./ItemIcon";
 
 export interface EncyclopediaItemProps {
@@ -25,8 +26,8 @@ export function EncyclopediaItem(props: EncyclopediaItemProps) {
 		<Stack.Item grow>
 			<Stack>
 				{item.description && <p>{item.description}</p>}
-				<h2>Creation</h2>
-				<h2>Usage</h2>
+				<Heading level={2} text="Creation" />
+				<Heading level={2} text="Usage" />
 			</Stack>
 		</Stack.Item>
 		<Stack>
