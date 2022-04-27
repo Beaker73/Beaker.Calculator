@@ -25,6 +25,7 @@ export function ItemIcon(props: ItemIconProps) {
 			icon: {
 				width: size,
 				height: size,
+				filter:`drop-shadow(${size/30}px ${size/10}px ${size/20}px rgba(0,0,0,0.5))`,
 			}
 		});
 	}, [size]);
