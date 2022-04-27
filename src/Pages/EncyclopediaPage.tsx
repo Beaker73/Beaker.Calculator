@@ -2,6 +2,7 @@ import { Page } from "../Components";
 
 export interface EncyclopediaPageProps {
 	subSection?: "factories" | "structures" | "resources",
+	itemKey?: string,
 }
 
 export function EncyclopediaPage(props: EncyclopediaPageProps) {

@@ -12,4 +12,13 @@ export function makeStyles<T extends IStyleSet>(build: (theme: ITheme) => T) {
 	};
 }
 
+export function makeThemedObjects<T>(build: (theme: ITheme) => T) {
+	return () => {
+		const theme = useTheme();
+		const style = useMemo(() => {
+			return build(theme);
+		}, [theme]);
 
+		return style;
+	};
+}

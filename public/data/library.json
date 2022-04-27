@@ -1,5 +1,15 @@
 {
 	"items": {
+		"coal": {
+			"name": "Coal",
+			"description": "Mainly used as fuel for vehicles & coal generators and for steel production.",
+			"iconName": "coal",
+			"energy": 300,
+			"stackSize": 100,
+			"sinkValue": 3,
+			"categoryKey": "ores",
+			"unlockedAtTier": 3
+		},
 		"ironIngot": {
 			"name": "Iron Ingot",
 			"iconName": "iron-ingot",

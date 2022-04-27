@@ -24,9 +24,11 @@ export const itemModel: ItemStore = {
 			key: "coal",
 			iconName: "coal",
 			name: "Coal",
+			description: "Mainly used as fuel for vehicles & coal generators and for steel production.",
 			category: "Ore",
 			stackSize: 100,
 			sinkValue: 3,
+			energy: 300,
 			wikiUri: "https://satisfactory.fandom.com/wiki/Coal"
 		},
 		aluminaSolution: {

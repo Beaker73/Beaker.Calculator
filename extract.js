@@ -30,7 +30,7 @@ const mapping = [
 	["Buildable/Building/Foundation/UI/U5/IconDesc_FlatFrame_256", "foundation-frame-flat"],
 	["Buildable/Building/Foundation/UI/U5/IconDesc_FoundationFrame_256", "foundation-frame-full"],
 	["Buildable/Building/Foundation/UI/U5/IconDesc_PolishFoundation1m_256", "foundation-1m-polished"],
-	["Buildable/Building/Foundation/UI/U5/IconDesc_PolishFoundation2m_512", "foundation-2m-polished", true],
+	["Buildable/Building/Foundation/UI/U5/IconDesc_PolishFoundation2m_512", "foundation-2m-polished"],
 	["Buildable/Building/Foundation/UI/U5/IconDesc_PolishFoundation4m_256", "foundation-4m-polished"],
 	["Buildable/Building/Foundation/UI/U5/IconDesc_RampFrame_256", "foundation-frame-ramp"],
 	["Buildable/Building/Foundation/UI/U5/IconDesc_RampFrameInverted_256", "foundation-frame-ramp-inverted"],
@@ -55,16 +55,18 @@ const mapping = [
 	["Resource/RawResources/CrudeOil/UI/LiquidOil_Pipe_256", "oil-pipe"],
 	["Resource/RawResources/CrudeOil/UI/Oil_256", "oil-barel"],
 	["Resource/RawResources/CrudeOil/UI/OilResidue_256", "oil-residue-barel"],
-	["Resource/Nodes/UI/IconDesc_Bauxite_256", "bauxite"],
-	["Resource/Nodes/UI/IconDesc_CateriumOre_256", "caterium"],
-	["Resource/Nodes/UI/IconDesc_copper_new_256", "copper"],
-	["Resource/Nodes/UI/IconDesc_iron_new_256", "iron"],
-	["Resource/OreUranium/UI/IconDesc_UraniumOre_256", "iron"],
-	["Resource/SAM/UI/SAMOre_256", "sam"],
-	["Resource/Stone/UI/Stone_256", "limestone"],
-	["Resource/Sulfur/UI/Sulfur_256", "sulfur"],
-	["Resource/Water/UI/LiquidWater_Pipe_256", "water-pipe"],
+	["Resource/RawResources/Nodes/UI/IconDesc_Bauxite_256", "bauxite"],
+	["Resource/RawResources/Nodes/UI/IconDesc_CateriumOre_256", "caterium"],
+	["Resource/RawResources/Nodes/UI/IconDesc_copper_new_256", "copper"],
+	["Resource/RawResources/Nodes/UI/IconDesc_iron_new_256", "iron"],
+	["Resource/RawResources/OreUranium/UI/IconDesc_UraniumOre_256", "iron"],
+	["Resource/RawResources/SAM/UI/SAMOre_256", "sam"],
+	["Resource/RawResources/Stone/UI/Stone_256", "limestone"],
+	["Resource/RawResources/Sulfur/UI/Sulfur_256", "sulfur"],
+	["Resource/RawResources/Water/UI/LiquidWater_Pipe_256", "water-pipe"],
 ];
+
+const sizes = [256, 64, 32];
 
 main();
 
@@ -77,6 +79,7 @@ async function main() {
 	}
 }
 
+
 async function process() {
 	console.log("process");
 	for (const [source, dest, scale] of mapping) {
@@ -84,36 +87,21 @@ async function process() {
 		console.log(`${source} => ${dest}`);
 		const fromPath = path.join(sourcePath, source + ".png");
 
-		const toPath256 = path.join(destPath + "/256", dest + ".png");
-		if (scale === true) {
-			new Promise((resolve, reject) => {
-				sharp(fromPath)
-					.resize({ height: 256 })
-					.toFile(toPath256)
-					.then(resolve)
-					.catch(error => reject(error));
-			});
-		}
-		else {
-			await fs.promises.copyFile(fromPath, toPath256);
-		}
 
-		const toPath32 = path.join(destPath + "/32", dest + ".png");
-		new Promise((resolve, reject) => {
-			sharp(fromPath)
-				.resize({ height: 32 })
-				.toFile(toPath32)
-				.then(resolve)
-				.catch(error => reject(error));
-		});
+		for (const size of sizes) {
+			const toPathSized = path.join(`${destPath}/${size}`, `${dest}.png`);
 
-		const toPath64 = path.join(destPath + "/64", dest + ".png");
-		new Promise((resolve, reject) => {
-			sharp(fromPath)
-				.resize({ height: 64 })
-				.toFile(toPath64)
-				.then(resolve)
-				.catch(error => reject(error));
-		});
+			// reread for every image, so we are working with the sharpest original to scale from
+			// in theory we could work from big to small, bug that might impact final sharpness
+			let image = await sharp(fromPath);
+			if (image.height !== size) {
+				image = await image
+					.resize({ height: size })
+					.toFile(toPathSized);
+			}
+			else {
+				await fs.promises.copyFile(fromPath, toPathSized);
+			}
+		}
 	}
 }

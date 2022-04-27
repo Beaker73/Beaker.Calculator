@@ -1,8 +1,9 @@
-import { DetailsList, IColumn, IPanelProps, Panel, Stack, TextField } from "@fluentui/react";
+import { DetailsList, IColumn, IContextualMenuItem, IPanelProps, Panel, Stack, TextField } from "@fluentui/react";
 import { useCallback, useMemo, useState } from "react";
 import { useStoreState } from "../Store";
 import { Item } from "../Model";
 import { ItemIcon } from "./ItemIcon";
+import { useContextMenu } from "../Hooks";
 
 export interface ItemListPanelProps {
 	panelProps?: IPanelProps,
@@ -34,10 +35,18 @@ export function ItemListPanel(props: ItemListPanelProps) {
 		return searchTerm == "" ? items : items.filter(i => i.name.toUpperCase().indexOf(searchTerm.toUpperCase()) !== -1, []);
 	}, [items, searchTerm]);
 
+	const clearSearch = useCallback(() => { setSearchTerm(""); }, []);
+	const searchContextItems = useMemo<IContextualMenuItem[]>(() => ([
+		{ key: "clear", name: "Clear filter", iconProps: { iconName: "Clear" }, onClick: clearSearch },
+	]), [clearSearch]);
+	const [searchContext] = useContextMenu(searchContextItems);
+
 	return <Panel {...props.panelProps} headerText="Items">
 		<Stack verticalFill>
 			<Stack.Item shrink>
-				<TextField label="Search" value={searchTerm} onChange={updateSearchTerm} iconProps={{ iconName: "Search" }} />
+				<div ref={searchContext}>
+					<TextField label="Search" value={searchTerm} onChange={updateSearchTerm} iconProps={{ iconName: "Search" }} />
+				</div>
 			</Stack.Item>
 			<Stack.Item grow>
 				<DetailsList columns={columns} items={filteredItems} />

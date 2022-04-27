@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { DetailsList, ICommandBarItemProps } from "@fluentui/react";
+import { DetailsList, IColumn, ICommandBarItemProps } from "@fluentui/react";
 
 import { useCommandBar, usePanel } from "../Hooks";
 
-import { ItemListPanel } from ".";
+import { ItemIcon, ItemListPanel } from ".";
+import { Item } from "../Model";
 
 export function TargetItemList() {
 
@@ -18,7 +19,18 @@ export function TargetItemList() {
 	]), [openAddPanel]);
 	useCommandBar(commands);
 
-	return <DetailsList items={[]} />;
+	const renderIcon = useCallback((item: Item) => {
+		return item ? <ItemIcon item={item} size={32} /> : undefined;
+	}, []);
+
+	const columns = useMemo<IColumn[]>(() => [
+		{ key: "icon", name: "Icon", fieldName: "icon", minWidth: 32, maxWidth: 32, isIconOnly: true, renderIcon },
+		{ key: "name", name: "Name", fieldName: "name", minWidth: 200, isRowHeader: true },
+		{ key: "factories", name: "Factories", fieldName: "factoryCount", minWidth: 80 },
+		{ key: "items", name: "Items p/m", fieldName: "itemsPerMinute", minWidth: 80 },
+	], [renderIcon]);
+
+	return <DetailsList columns={columns} items={[]} />;
 }
 
 if (import.meta.env.DEV)

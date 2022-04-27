@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@fluentui/react";
-import { useEffect } from "react";
 import { Shell } from "./Components";
 
 export function App() {

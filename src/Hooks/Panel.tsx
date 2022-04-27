@@ -37,10 +37,10 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 					component: action.payload.panelComponent,
 					panelProps: {
 						isOpen: false,
-						isBlocking: false,
+						isBlocking: true,
 						isLightDismiss: true,
-					}
-				}
+					},
+				},
 			];
 
 		case "remove": {
@@ -57,7 +57,7 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 							...existing.panelProps,
 							isOpen: true,
 							onContextMenu: action.payload.cancelContext,
-							onDismissed: action.payload.resolve,
+							onDismiss: action.payload.resolve,
 						}
 					}];
 			break;
@@ -72,8 +72,8 @@ function reducer(state: PanelContextState[], action: PanelAction): PanelContextS
 							...existing.panelProps,
 							isOpen: false,
 							onContextMenu: undefined,
-							onDismissed: undefined,
-						}
+							onDismiss: undefined,
+						},
 					}];
 			break;
 	}
@@ -119,7 +119,12 @@ export function usePanel(panelComponent: PanelComponent): PanelManager {
 	const show = useCallback(() => {
 		if (dispatch) {
 			return new Promise<void>((resolve) => {
-				dispatch({ type: "show", payload: { key, resolve, cancelContext } });
+				dispatch({ type: "show", payload: { key, resolve: close, cancelContext } });
+				function close() {
+					if (dispatch)
+						dispatch({ type: "hide", payload: { key } });
+					resolve();
+				}
 			});
 		}
 		return Promise.resolve();
