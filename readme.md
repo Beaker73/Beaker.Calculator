@@ -1,5 +1,5 @@
-# Yet Another Satisfactory Calculator
+# ~~Yet Another Satisfactory Calculator~~
+
+# The First Foundry Calculator
 
 Complete: 0.1%
-
-[Visit current non-functional version](https://satisfactorycalculator.z6.web.core.windows.net/)
