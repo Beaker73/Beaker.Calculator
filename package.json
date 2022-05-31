@@ -8,7 +8,8 @@
 		"preview": "vite preview",
 		"redux-devtools": "redux-devtools --hostname=localhost --port=3005",
 		"react-devtools": "react-devtools",
-		"extract": "node extract.js"
+		"extract-satisfactory": "node Scripts/Satisfactory/Extract.js",
+		"extract-foundry": "node Scripts/Foundry/Extract.js"
 	},
 	"dependencies": {
 		"@fluentui/react": "^8.67.1",

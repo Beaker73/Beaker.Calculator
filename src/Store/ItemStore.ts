@@ -1,46 +1,22 @@
-import { computed, Computed } from "easy-peasy";
+import { action, Action, computed, Computed } from "easy-peasy";
 import type { Store } from ".";
-import { Item } from "../Model";
+import { Item } from "../Data/Library";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ItemStore {
 	data: Record<string, Item>,
 	all: Computed<ItemStore, Item[], Store>,
 	getItemByKey: Computed<ItemStore, (key: string) => Item | undefined, Store>,
+
+	setItems: Action<ItemStore, { items: Record<string, Item> }>,
 }
 
 export const itemModel: ItemStore = {
-	data: {
-		ironIngot: {
-			key: "ironIngot",
-			iconName: "iron-ingot",
-			name: "Iron Ingot",
-			category: "Ingots",
-			stackSize: 100,
-			sinkValue: 2,
-			wikiUri: "https://satisfactory.fandom.com/wiki/Iron_Ingot"
-		},
-		coal: {
-			key: "coal",
-			iconName: "coal",
-			name: "Coal",
-			description: "Mainly used as fuel for vehicles & coal generators and for steel production.",
-			category: "Ore",
-			stackSize: 100,
-			sinkValue: 3,
-			energy: 300,
-			wikiUri: "https://satisfactory.fandom.com/wiki/Coal"
-		},
-		aluminaSolution: {
-			key: "aluminaSolution",
-			iconName: "alumina-solution-packaged",
-			name: "Packaged Alumina Solution",
-			category: "Container",
-			stackSize: 100,
-			sinkValue: 160,
-			wikiUri: "https://satisfactory.fandom.com/wiki/Packaged_Alumina_Solution"
-		}
-	},
+	data: {},
 	all: computed(state => Object.values(state.data)),
 	getItemByKey: computed(state => key => state.data[key]),
+
+	setItems: action((state, { items }) => {
+		state.data = items;
+	}),
 };

@@ -4,6 +4,7 @@ import { ContextualMenuItemType, IContextualMenuItem, mergeStyleSets, useTheme }
 import { Item } from "../Model";
 import { useContextMenu } from "../Hooks";
 import { navigate } from "raviger";
+import { useStoreState } from "../Store";
 
 export interface ItemIconProps {
 	item: Item
@@ -14,11 +15,13 @@ const knownSizes = [32, 64, 256];
 
 export function ItemIcon(props: ItemIconProps) {
 
+	const application = useStoreState(state => state.context.application);
+
 	const { item, size } = props;
 	const { name, iconName } = item ?? {};
 
 	const bestSize = knownSizes.find(s => s >= size);
-	const path = bestSize && iconName ? `/icons/${bestSize}/${iconName}.png` : undefined;
+	const path = bestSize && iconName ? `/icons/${application}/${bestSize}/${iconName}.png` : undefined;
 
 	const imageStyle = useMemo(() => {
 		return mergeStyleSets({

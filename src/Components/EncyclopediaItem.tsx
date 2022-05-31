@@ -1,4 +1,4 @@
-import { DetailsList, Stack } from "@fluentui/react";
+import { Stack } from "@fluentui/react";
 import { makeStyles, makeThemedObjects } from "../Hooks";
 import { useStoreState } from "../Store";
 import { Card } from "./Card";

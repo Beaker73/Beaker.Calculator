@@ -1,14 +1,26 @@
-import { createStore, createTypedHooks } from "easy-peasy";
+import { createStore, createTypedHooks, thunk, Thunk } from "easy-peasy";
+import { loadLibrary } from "../Data/Library";
+import { contextStore, ContextStore } from "./ContextStore";
 //import { StoreEnhancer } from "redux";
 
 import { itemModel, ItemStore } from "./ItemStore";
 
 export interface Store {
+	context: ContextStore,
 	items: ItemStore
+
+	loadLibrary: Thunk<Store, void, void, Store, Promise<void>>,
 }
 
 export const model: Store = {
+	context: contextStore,
 	items: itemModel,
+
+	loadLibrary: thunk(async ({ items: { setItems } }, _, { getState }) => {
+		const application = getState().context.application;
+		const library = await loadLibrary(application);
+		setItems({items: library.items});
+	}),
 };
 
 

@@ -1,9 +1,13 @@
 import { ThemeProvider } from "@fluentui/react";
+import { StoreProvider } from "easy-peasy";
 import { Shell } from "./Components";
+import { store } from "./Store";
 
 export function App() {
 	return <ThemeProvider className="root">
-		<Shell />
+		<StoreProvider store={store}>
+			<Shell />
+		</StoreProvider>
 	</ThemeProvider>;
 }
 

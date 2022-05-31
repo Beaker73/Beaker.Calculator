@@ -1,13 +1,13 @@
 import { Routes, useRoutes } from "raviger";
 
 import { makeStyles } from "../Hooks/Theming";
-import { AsyncPage } from "../Pages";
+import { AsyncPage, LoadingPage } from "../Pages";
 
 import { AppBar } from "./AppBar";
 import { NavBar } from ".";
 import { CommandBarProvider, ContextMenuProvider, PanelProvider } from "../Hooks";
-import { StoreProvider } from "easy-peasy";
-import { store } from "../Store";
+import { useStoreActions, useStoreState } from "../Store";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles(theme => ({
 	appBar: {
@@ -66,25 +66,34 @@ export function Shell() {
 	const page = useRoutes(routes);
 	const styles = useStyles();
 
-	return <StoreProvider store={store}>
-		<ContextMenuProvider>
-			<CommandBarProvider>
-				<PanelProvider>
-					<div className={styles.navBar}>
-						<NavBar />
+	const [isLoaded, setIsLoaded] = useState(false);
+	const application = useStoreState(state => state.context.application);
+	const loadLibrary = useStoreActions(store => store.loadLibrary);
+	useEffect(() => {
+		setIsLoaded(false);
+		loadLibrary().then(() => setIsLoaded(true));
+	}, [application, loadLibrary]);
+
+	if (!isLoaded)
+		return <LoadingPage />;
+
+	return <ContextMenuProvider>
+		<CommandBarProvider>
+			<PanelProvider>
+				<div className={styles.navBar}>
+					<NavBar />
+				</div>
+				<div className={styles.appBar}>
+					<AppBar />
+				</div>
+				<div className={styles.pageFrame}>
+					<div className={styles.page}>
+						{page}
 					</div>
-					<div className={styles.appBar}>
-						<AppBar />
-					</div>
-					<div className={styles.pageFrame}>
-						<div className={styles.page}>
-							{page}
-						</div>
-					</div>
-				</PanelProvider>
-			</CommandBarProvider>
-		</ContextMenuProvider>
-	</StoreProvider >;
+				</div>
+			</PanelProvider>
+		</CommandBarProvider>
+	</ContextMenuProvider>;
 }
 
 if (import.meta.env.DEV)
