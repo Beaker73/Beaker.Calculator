@@ -16,10 +16,12 @@ export const model: Store = {
 	context: contextStore,
 	items: itemModel,
 
-	loadLibrary: thunk(async ({ items: { setItems } }, _, { getState }) => {
+	loadLibrary: thunk(async ({ context: { setTheme }, items: { setItems } }, _, { getState }) => {
 		const application = getState().context.application;
 		const library = await loadLibrary(application);
-		setItems({items: library.items});
+
+		setTheme({ theme: library.theme });
+		setItems({ items: library.items });
 	}),
 };
 

@@ -1,13 +1,19 @@
 import { ThemeProvider } from "@fluentui/react";
 import { StoreProvider } from "easy-peasy";
 import { Shell } from "./Components";
-import { store } from "./Store";
+import { store, useStoreState } from "./Store";
 
 export function App() {
-	return <ThemeProvider className="root">
-		<StoreProvider store={store}>
-			<Shell />
-		</StoreProvider>
+	return <StoreProvider store={store}>
+		<ThemedApp />
+	</StoreProvider>;
+}
+
+function ThemedApp() {
+	const theme = useStoreState(state => state.context.theme);
+
+	return <ThemeProvider className="root" theme={theme ?? undefined} >
+		<Shell />
 	</ThemeProvider>;
 }
 

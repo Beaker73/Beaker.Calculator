@@ -1,3 +1,4 @@
+import { IPartialTheme } from "@fluentui/react";
 import { Application } from "../Store/ContextStore";
 
 export interface Item {
@@ -21,6 +22,7 @@ export interface Item {
 }
 
 export interface Library {
+	theme?: IPartialTheme,
 	items: Record<string, Item>;
 }
 

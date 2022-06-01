@@ -1,6 +1,32 @@
 import { Library } from "../Library";
 
 const library: Library = {
+	theme: {
+		palette: {
+			themePrimary: "#0099ff",
+			themeLighterAlt: "#00060a",
+			themeLighter: "#001829",
+			themeLight: "#002e4d",
+			themeTertiary: "#005c99",
+			themeSecondary: "#0087e0",
+			themeDarkAlt: "#19a3ff",
+			themeDark: "#3db1ff",
+			themeDarker: "#70c6ff",
+			neutralLighterAlt: "#2b2b2b",
+			neutralLighter: "#333333",
+			neutralLight: "#414141",
+			neutralQuaternaryAlt: "#4a4a4a",
+			neutralQuaternary: "#515151",
+			neutralTertiaryAlt: "#6f6f6f",
+			neutralTertiary: "#c8c8c8",
+			neutralSecondary: "#d0d0d0",
+			neutralPrimaryAlt: "#dadada",
+			neutralPrimary: "#ffffff",
+			neutralDark: "#f4f4f4",
+			black: "#f8f8f8",
+			white: "#222222",
+		}
+	},
 	items: {
 		hydraulic_piston: {
 			key: "hydraulic_piston",
