@@ -1,6 +1,6 @@
 import { createStore, createTypedHooks, thunk, Thunk } from "easy-peasy";
 import { loadLibrary } from "../Data/Library";
-import { contextStore, ContextStore } from "./ContextStore";
+import { Application, contextStore, ContextStore } from "./ContextStore";
 //import { StoreEnhancer } from "redux";
 
 import { itemModel, ItemStore } from "./ItemStore";
@@ -9,6 +9,7 @@ export interface Store {
 	context: ContextStore,
 	items: ItemStore
 
+	activateApp: Thunk<Store, { app: Application }, void, Store, Promise<void>>,
 	loadLibrary: Thunk<Store, void, void, Store, Promise<void>>,
 }
 
@@ -16,6 +17,10 @@ export const model: Store = {
 	context: contextStore,
 	items: itemModel,
 
+	activateApp: thunk(async ({ loadLibrary, context: { setApp } }, { app }) => {
+		setApp({ app });
+		await loadLibrary();
+	}),
 	loadLibrary: thunk(async ({ context: { setTheme }, items: { setItems } }, _, { getState }) => {
 		const application = getState().context.application;
 		const library = await loadLibrary(application);

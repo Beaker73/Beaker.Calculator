@@ -33,8 +33,8 @@ export function NavBar() {
 					key: "encyclopedia", name: "Encyclopedia", url: "/encyclopedia", iconProps: { iconName: "ReadingMode" },
 					links: [
 						{ key: "factories", name: "Factories", url: "/encyclopedia/factories", iconProps: { iconName: "Manufacturing" } },
-						{ key: "structures", name: "Structures", url: "/encyclopedia/structures", iconProps: { iconName: "DOM" } },
 						{ key: "resources", name: "Resources", url: "/encyclopedia/resources", iconProps: { iconName: "StreetsideSplitMinimize" } },
+						{ key: "science", name: "Tech Tree", url: "/encyclopedia/science", iconProps: { iconName: "DOM" } },
 					]
 				},
 				{ key: "map", name: "Map", url: "/map", iconProps: { iconName: "World" } },

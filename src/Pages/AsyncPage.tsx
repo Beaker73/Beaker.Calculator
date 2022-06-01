@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LoadingPage } from "./LoadingPage";
 
-export type PageName = "CalculatorPage" | "HomePage" | "EncyclopediaPage" | "EncyclopediaItemPage" | "MapPage";
+export type PageName = "CalculatorPage" | "HomePage" | "EncyclopediaPage" | "EncyclopediaItemPage" | "MapPage" | "SciencePage";
 
 export interface AsyncPageProps {
 	page: PageName,
@@ -20,6 +20,7 @@ const importers: Record<PageName | "default", () => Promise<PageComponent>> = {
 	HomePage: () => import("./HomePage").then(module => module.HomePage),
 	CalculatorPage: () => import("./CalculatorPage").then(module => module.CalculatorPage),
 	EncyclopediaPage: () => import("./EncyclopediaPage").then(module => module.EncyclopediaPage),
+	SciencePage: () => import("./SciencePage").then(module => module.SciencePage),
 	EncyclopediaItemPage: () => import("./EncyclopediaItemPage").then(module => module.EncyclopediaItemPage),
 	MapPage: () => import("./MapPage").then(module => module.MapPage),
 	default: () => import("./NotFoundPage").then(module => module.NotFoundPage),

@@ -1,10 +1,12 @@
 import { CommandBar, ContextualMenuItemType, ICommandBarItemProps, ICommandBarStyles, Stack, Text } from "@fluentui/react";
 import { PropsWithChildren, useCallback, useMemo } from "react";
-import { CommandBarProvider, useCommandBar, useCommandBarItems } from "../Hooks";
+import { CommandBarProvider, useCommandBarItems } from "../Hooks";
 import { makeStyles } from "../Hooks/Theming";
 
 export interface CardProps {
 	title?: string,
+	className?: string,
+	onClick?: () => void,
 }
 
 const useCardStyles = makeStyles(theme => ({
@@ -20,7 +22,7 @@ export function Card(props: PropsWithChildren<CardProps>) {
 
 	const styles = useCardStyles();
 
-	return <div className={styles.card}>
+	return <div className={[styles.card, props.className].join(" ")} onClick={props.onClick}>
 		<CommandBarProvider>
 			{props.title && <CardHeader title={props.title} />}
 			{props.children}

@@ -55,8 +55,8 @@ const routes: Routes<string> = {
 	"/calculator": () => <AsyncPage page="CalculatorPage" />,
 	"/encyclopedia": () => <AsyncPage page="EncyclopediaPage" />,
 	"/encyclopedia/factories": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "factories" }} />,
-	"/encyclopedia/structures": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "structures" }} />,
 	"/encyclopedia/resources": () => <AsyncPage page="EncyclopediaPage" pageProps={{ subSection: "resources" }} />,
+	"/encyclopedia/science": () => <AsyncPage page="SciencePage" />,
 	"/encyclopedia/:itemKey": (args) => <AsyncPage page="EncyclopediaItemPage" pageProps={args} />,
 	"/map": () => <AsyncPage page="MapPage" />,
 };
