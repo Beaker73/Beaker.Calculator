@@ -1,11 +1,9 @@
-export interface Item {
-	key: string,
-	iconName?: string,
-	name: string,
-	description?: string,
-	category: string,
-	stackSize?: number,
-	sinkValue?: number,
-	energy?: number,
-	wikiUri?: string,
-}
+import type { BuildingItem } from "./BuildingItem";
+import type { ResearchItem } from "./ResearchItem";
+import type { ResourceItem } from "./ResourceItem";
+
+export type Item =
+	| ResourceItem
+	| ResearchItem
+	| BuildingItem
+	;

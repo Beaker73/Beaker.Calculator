@@ -9,7 +9,7 @@ export interface EncyclopediaItemPageProps {
 export function EncyclopediaItemPage(props: EncyclopediaItemPageProps) {
 
 	const { itemKey } = props;
-	const item = useStoreState(state => itemKey ? state.items.data[itemKey] : undefined);
+	const item = useStoreState(state => itemKey ? state.items.items[itemKey] : undefined);
 
 	return <Page title={item?.name}>
 		{itemKey && item && <EncyclopediaItem itemKey={itemKey} />}

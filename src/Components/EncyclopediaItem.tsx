@@ -19,7 +19,7 @@ const useThemed = makeThemedObjects(theme => ({
 export function EncyclopediaItem(props: EncyclopediaItemProps) {
 
 	const { itemKey } = props;
-	const item = useStoreState(state => state.items.data[itemKey]);
+	const item = useStoreState(state => state.items.items[itemKey]);
 	const themed = useThemed();
 
 	return <Stack horizontal tokens={themed.stack}>

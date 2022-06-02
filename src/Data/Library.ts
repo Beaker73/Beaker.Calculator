@@ -1,51 +1,35 @@
 import { createTheme, IPartialTheme, ITheme } from "@fluentui/react";
-import { Application } from "../Store/ContextStore";
+import type { BuildingItem, Item, ResearchItem, ResourceItem } from "../Model";
+import { ItemAttributes } from "../Model/Attributes";
+import type { Application } from "../Store/ContextStore";
 
-export interface Item {
-	key: string,
-	iconName: string,
-	name: string,
-	description: string,
-	category: string,
-
-	/** The number of items p/m this item transports */
-	transports?: number,
-	/** Sink value for this item (Satisfactory) */
-	sinkValue?: number,
-	/** Stack size for this item */
-	stackSize?: number,
-	/** Energy value in MJ */
-	energy?: number,
-
-	/** Any dependencies this item has */
-	dependencies?: string[],
-	/** any items or technologies this unlocks */
-	unlocks?: string[],
-}
-
-export type LibraryItem = Omit<Item, "key" | "iconName"> & { iconName?: string };
-
-export interface Library {
-	theme?: IPartialTheme,
-	items: Record<string, LibraryItem>;
-}
+export type ResearchItemData = Omit<ResearchItem, "key" | "iconName" | "attributes"> & { iconName?: string };
+export type ResourceItemData = Omit<ResourceItem, "key" | "iconName" | "attributes"> & { iconName?: string };
+export type BuildingItemData = Omit<BuildingItem, "key" | "iconName" | "attributes"> & { iconName?: string };
+export type ItemData = ResourceItemData | ResearchItemData | BuildingItemData;
 
 export interface LibraryData {
+	theme?: IPartialTheme,
+	items: Record<string, ItemData>;
+}
+
+export interface Library {
 	theme?: ITheme,
 	items: Record<string, Item>;
 }
 
-export async function loadLibrary(app: Application): Promise<LibraryData> {
-	const module = await import(`./${app}/Library.ts`) as { default: Library };
+export async function loadLibrary(app: Application): Promise<Library> {
+	const module = await import(`./${app}/Library.ts`) as { default: LibraryData };
 	const data = module.default;
 
 	return {
 		theme: createTheme(data.theme),
-		items: enrichData(data.items, (key, item) => ({
+		items: enrichData<ItemData, Item>(data.items, (key, item) => ({
 			...item,
 			key,
 			iconName: item.iconName ?? key,
-		})),
+			attributes: composeAttributes(item),
+		} as Item)),
 	};
 }
 
@@ -54,4 +38,20 @@ function enrichData<S, T extends S>(items: Record<string, S>, mapItem: (key: str
 		Object.entries(items)
 			.map(([key, item]) => [key, mapItem(key, item)]),
 	);
+}
+
+function composeAttributes(item: ItemData): ItemAttributes {
+
+	let attributes: ItemAttributes = ItemAttributes.None;
+
+	if ("stackSize" in item)
+		attributes |= ItemAttributes.Stackable;
+	if ("sinkValue" in item)
+		attributes |= ItemAttributes.Sinkable;
+	if ("energy" in item)
+		attributes |= ItemAttributes.HasEnergy;
+	if ("wikiUri" in item)
+		attributes |= ItemAttributes.HasWiki;
+
+	return attributes;
 }

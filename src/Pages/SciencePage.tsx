@@ -5,10 +5,10 @@ import { useStoreState } from "../Store";
 
 export function SciencePage(): JSX.Element {
 
-	const scienceItems = useStoreState(state => state.items.scienceItems);
+	const scienceItems = useStoreState(state => state.items.researchItems);
 
 	return <Page title="Encyclopedia" subTitle="Science">
-		<Stack horizontal overflow tokens={{ childrenGap: 16 }}>
+		<Stack horizontal wrap tokens={{ childrenGap: 16 }}>
 			{scienceItems.map(item => <ScienceItem key={item.key} itemKey={item.key} />)}
 		</Stack>
 	</Page>;
@@ -59,6 +59,8 @@ const useScienceItemStyles = makeStyles(theme => ({
 		height: 128,
 		border: `solid 1px ${theme.semanticColors.variantBorder}`,
 		marginBottom: theme.spacing.m,
+		borderRadius: theme.effects.roundedCorner2,
+		overflow: "hidden",
 	},
 	description: {
 		overflow: "hidden",

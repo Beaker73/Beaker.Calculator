@@ -1,26 +1,36 @@
 import { action, Action, computed, Computed } from "easy-peasy";
 import type { Store } from ".";
-import { Item } from "../Data/Library";
+import { BuildingItem, Item, ItemType, ResearchItem, ResourceItem } from "../Model";
+import { buildIndex, Index } from "./Indexing";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ItemStore {
-	data: Record<string, Item>,
+	// actual data
+	items: Record<string, Item>,
+	itemsPerType: Index<ItemType>,
 
+	// getters
 	all: Computed<ItemStore, Item[], Store>,
 	getItemByKey: Computed<ItemStore, (key: string) => Item, Store>,
-	scienceItems: Computed<ItemStore, Item[], Store>,
+	resourceItems: Computed<ItemStore, ResourceItem[], Store>,
+	researchItems: Computed<ItemStore, ResearchItem[], Store>,
+	buildingItems: Computed<ItemStore, BuildingItem[], Store>,
 
+	// actions (setters)
 	setItems: Action<ItemStore, { items: Record<string, Item> }>,
 }
 
 export const itemModel: ItemStore = {
-	data: {},
+	items: {},
+	itemsPerType: {},
 
-	all: computed(state => Object.values(state.data)),
-	getItemByKey: computed(state => key => state.data[key]),
-	scienceItems: computed(state => state.all.filter(i => i.category === "technology")),
+	all: computed(state => Object.values(state.items)),
+	getItemByKey: computed(state => key => state.items[key]),
+	resourceItems: computed(state => Object.keys(state.itemsPerType.resource ?? {}).map(key => state.items[key] as ResourceItem)),
+	researchItems: computed(state => Object.keys(state.itemsPerType.research ?? {}).map(key => state.items[key] as ResearchItem)),
+	buildingItems: computed(state => Object.keys(state.itemsPerType.building ?? {}).map(key => state.items[key] as BuildingItem)),
 
 	setItems: action((state, { items }) => {
-		state.data = items;
+		state.items = items;
+		state.itemsPerType = buildIndex(Object.values(items), item => item.type);
 	}),
 };
